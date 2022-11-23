@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marco Elias</title>
+
+       <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+        h1{color: white }
+        h1{text-align: center;} 
+        h1{font-family: 'Roboto', sans-serif;}
+        h1{margin: 1rem;}
+        h1{padding: 3rem;}
+        h1{background-color: pink;}
+        h1{border-radius: 1rem;}
+        h1{height: 10rem;}
+        img{height: 10rem;}
+        
+        
+        button{color:rgb(71, 50, 26);}
+        
+         
+        </style>
+</head>
+<body>
+       <h1>
+          Clefiry
+         <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/35.png" alt="">
+        
+        </h1>
+        
+
+        
+
+        
+
+
+          <button onclick="alert('teste pokedex')">Click</button> 
+
+            <script>
+
+const pokeApi = {}
+
+function convertPokeApiDetailToPokemon(pokeDetail) {
+    const pokemon = new Pokemon()
+    pokemon.number = pokeDetail.id
+    pokemon.name = pokeDetail.name
+
+    const types = pokeDetail.types.map((typeSlot) => typeSlot.type.name)
+    const [type] = types
+
+    pokemon.types = types
+    pokemon.type = type
+
+    pokemon.photo = pokeDetail.sprites.other.dream_world.front_default
+
+    return pokemon
+}
+
+        pokeApi.getPokemonDetail = (pokemon) => {
+        return fetch(pokemon.url)
+        .then((response) => response.json())
+        .then(convertPokeApiDetailToPokemon)
+}
+
+        pokeApi.getPokemons = (offset = 0, limit = 5) => {
+        const url = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
+
+        return fetch(url)
+        .then((response) => response.json())
+        .then((jsonBody) => jsonBody.results)
+        .then((pokemons) => pokemons.map(pokeApi.getPokemonDetail))
+        .then((detailRequests) => Promise.all(detailRequests))
+        .then((pokemonsDetails) => pokemonsDetails)
+}
+
+              
+               
+
+               
+
+        
+
+
+
+            </script>
+
+</body>
+</html>
